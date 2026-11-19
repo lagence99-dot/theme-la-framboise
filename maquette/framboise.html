@@ -1,0 +1,687 @@
+<title>La Framboise Digitale</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..700&family=Hanken+Grotesk:wght@400;500&family=Instrument+Serif:ital@1&family=Jost:wght@200;300;400&display=swap">
+<style>
+/* Layout : fond blanc, typographie noir bleuté, les visuels apportent la couleur. Ouverture plein écran en diaporama, panneaux projets qui s'empilent, galerie qui défile à l'horizontale, un seul accent framboise. */
+:root{
+  color-scheme:light;
+  --bg:#FFFFFF; --surface:#FFFFFF; --fg:#101A2B; --muted:#5A6577; --line:#E0E4EB;
+  --accent:#D41B5E; --on-accent:#FFFFFF; --veil:10,14,24; --photo-fg:#FFFFFF; --glass:rgba(255,255,255,.84);
+  --display:"Bricolage Grotesque","Arial Narrow",Arial,sans-serif;
+  --body:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --serif:"Instrument Serif",Georgia,"Times New Roman",serif;
+  --logo:"Jost","Century Gothic",Futura,sans-serif;
+  --ease:cubic-bezier(.77,0,.18,1);
+  --gl:max(16px,env(safe-area-inset-left,0px)); --gr:max(16px,env(safe-area-inset-right,0px));
+  --p:1; --b:1; --hp:0; --mx:0; --my:0;
+}
+@media(min-width:800px){:root{--gl:max(44px,env(safe-area-inset-left,0px));--gr:max(44px,env(safe-area-inset-right,0px))}}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:17px;line-height:1.6;overflow-x:clip}
+a{color:inherit}
+img{display:block}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+h1,h2,h3,p{margin:0}
+h1,h2,h3{font-family:var(--display);font-weight:400;letter-spacing:-.035em;line-height:.96;text-wrap:balance}
+em.s{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--accent);letter-spacing:-.01em}
+.wrap{padding-left:var(--gl);padding-right:var(--gr);max-width:1560px;margin-inline:auto}
+.eyebrow{font-family:var(--logo);font-size:.76rem;letter-spacing:.34em;text-transform:uppercase;color:var(--muted);font-weight:400}
+
+/* rideau d'ouverture */
+.curtain{position:fixed;inset:0;z-index:50;background:var(--bg);display:grid;place-items:center;pointer-events:none;animation:cur 1s var(--ease) 1.25s forwards}
+.curtain b{font-family:var(--logo);font-weight:200;font-size:clamp(1.4rem,5vw,3.4rem);letter-spacing:.42em;text-transform:uppercase;animation:curt 1.2s var(--ease) both;padding-left:.42em}
+@keyframes cur{to{clip-path:inset(0 0 100% 0)}}
+@keyframes curt{from{letter-spacing:.9em;opacity:0}}
+
+
+/* header */
+header.site{position:fixed;inset:0 0 auto;z-index:30;padding-top:env(safe-area-inset-top,0px);color:var(--photo-fg);transition:background .5s,color .5s,transform .6s var(--ease)}
+header.site.scrolled{color:var(--fg);background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+header.site.hide{transform:translateY(-100%)}
+header.site .in{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px var(--gr) 16px var(--gl)}
+.logo{font-family:var(--logo);font-weight:300;font-size:1rem;letter-spacing:.34em;text-transform:uppercase;text-decoration:none;line-height:1.1}
+.logo small{display:block;font-size:.56rem;letter-spacing:.62em;color:inherit;opacity:.7;margin-top:4px}
+nav.main{display:flex;gap:clamp(12px,2.4vw,36px);flex-wrap:wrap;justify-content:flex-end}
+nav.main a{font-family:var(--logo);font-size:.78rem;letter-spacing:.24em;text-transform:uppercase;text-decoration:none;position:relative;padding-block:8px}
+nav.main a::after{content:"";position:absolute;left:0;right:0;bottom:3px;height:1px;background:var(--accent);transform:scaleX(0);transform-origin:right;transition:transform .5s var(--ease)}
+nav.main a:hover::after{transform:scaleX(1);transform-origin:left}
+@media(max-width:560px){nav.main a:nth-child(3){display:none}}
+
+/* boutons */
+.btn{display:inline-flex;align-items:center;gap:14px;min-height:54px;padding:0 28px;border:1px solid var(--fg);border-radius:999px;text-decoration:none;font-family:var(--logo);font-size:.8rem;letter-spacing:.22em;text-transform:uppercase;position:relative;overflow:hidden;isolation:isolate;transition:color .5s var(--ease),border-color .5s;color:var(--fg)}
+.btn::before{content:"";position:absolute;inset:0;background:var(--accent);border-radius:50%;transform:translateY(140%) scale(1.6);transition:transform .7s var(--ease);z-index:-1}
+.btn:hover{color:var(--on-accent);border-color:var(--accent)}
+.btn:hover::before{transform:scale(1.6)}
+.btn svg{width:16px;height:16px;transition:transform .5s var(--ease)}
+.btn:hover svg{transform:translateX(6px)}
+.btn.fill{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.btn.fill:hover{color:var(--on-accent);border-color:var(--accent)}
+.row{display:flex;gap:14px;flex-wrap:wrap}
+.lk{display:inline-flex;align-items:center;gap:12px;min-height:44px;text-decoration:none;font-family:var(--logo);font-size:.78rem;letter-spacing:.22em;text-transform:uppercase;border-bottom:1px solid var(--fg);transition:color .3s,border-color .3s,gap .5s var(--ease)}
+.lk:hover{color:var(--accent);border-color:var(--accent);gap:22px}
+
+/* apparitions (actives seulement avec JS) */
+.ln{display:block;overflow:hidden;padding-bottom:.1em;margin-bottom:-.1em}
+.ln>span{display:block}
+.js .ln>span{transform:translateY(110%) rotate(4deg);transform-origin:0 100%;transition:transform 1.2s var(--ease);transition-delay:var(--dl,0s)}
+.js .in .ln>span{transform:none}
+.js .rv{opacity:0;transform:translateY(40px);filter:blur(12px);transition:opacity 1s ease,transform 1.1s var(--ease),filter 1.1s ease;transition-delay:var(--dl,0s)}
+.js .rv.in{opacity:1;transform:none;filter:none}
+/* blocs texte + reference : l'image arrive d'un cote, le texte de l'autre, le flou se dissipe au fil du scroll */
+.feat{--dir:1}.feat.alt{--dir:-1}
+.js .feat .ref,.js .feat .txt{opacity:var(--b);filter:blur(calc((1 - var(--b)) * 18px));transition:transform .7s cubic-bezier(.2,.7,.2,1),filter .7s ease,opacity .7s ease;will-change:transform,filter}
+.js .feat .ref{transform:translateX(calc((1 - var(--b)) * -10vw * var(--dir))) scale(calc(.92 + var(--b) * .08))}
+.js .feat .txt{transform:translateX(calc((1 - var(--b)) * 10vw * var(--dir)))}
+.js .feat .txt>*{transform:translateX(calc((1 - var(--b)) * var(--k,0) * 1vw * var(--dir)));transition:transform .9s cubic-bezier(.2,.7,.2,1)}
+.js .feat .txt>*:nth-child(2){--k:3}.js .feat .txt>*:nth-child(3){--k:5}.js .feat .txt>*:nth-child(4){--k:7}
+.js .feat .rv,.js .feat .ln>span{opacity:1;filter:none}
+.js .feat .ln>span{transform:none}
+.js .feat .fr>img{clip-path:none}
+.js .wl,.js .wr,.js .wu{background:none}
+.js .wl>img,.js .wr>img,.js .wu>img{transition:clip-path 1.5s var(--ease)}
+.js .wl>img{clip-path:inset(0 100% 0 0)}.js .wr>img{clip-path:inset(0 0 0 100%)}.js .wu>img{clip-path:inset(100% 0 0 0)}
+.js .wl.in>img,.js .wr.in>img,.js .wu.in>img{clip-path:inset(0)}
+.ref{margin:0;display:flex;flex-direction:column;gap:12px;min-width:0}
+.ref .fr{display:block;width:100%}
+.ref figcaption{font-family:var(--logo);font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--muted);display:flex;justify-content:space-between;gap:12px}
+.ref figcaption b{font-weight:400;color:var(--fg)}
+.rule{height:1px;background:var(--line);display:block}
+.js .rule{transform:scaleX(0);transform-origin:left;transition:transform 1.4s var(--ease)}
+.js .rule.in{transform:none}
+.w{transition:opacity .25s linear}
+
+/* cadres photo */
+.fr{position:relative;overflow:hidden;background:var(--surface);max-width:100%}
+.fr img{position:absolute;inset:-8% 0;width:100%;height:116%;object-fit:cover;transform:translateY(calc((var(--p) - .5) * -9%)) scale(1.06);will-change:transform}
+
+/* cadre "fit" : il prend le format reel de l'image, rien n'est coupe */
+.fr[data-fit] img{inset:0;width:100%;height:100%;transform:none}
+/* ===== ouverture ===== */
+.pin{height:175svh;position:relative}
+.hero{position:sticky;top:0;height:100svh;overflow:hidden}
+.hero-frame{position:absolute;inset:0;overflow:hidden;clip-path:inset(calc(var(--hp) * 9%) calc(var(--hp) * 7%) round calc(var(--hp) * 30px))}
+.hero-move{position:absolute;inset:-3%;transform:translate3d(calc(var(--mx) * -16px),calc(var(--my) * -12px),0) scale(calc(1 + var(--hp) * .12));transition:transform .9s cubic-bezier(.2,.7,.2,1)}
+.hs{position:absolute;inset:0;clip-path:inset(0 0 0 100%);z-index:0}
+.hs img{width:100%;height:100%;object-fit:cover;transform:scale(1.12);transition:transform 8s cubic-bezier(.2,.5,.3,1)}
+.hs.on{clip-path:inset(0);z-index:2;transition:clip-path 1.5s var(--ease)}
+.hs.on img{transform:scale(1)}
+.hs.prev{clip-path:inset(0);z-index:1}
+.hero-frame::after{content:"";position:absolute;inset:0;z-index:3;background:linear-gradient(to top,rgba(var(--veil),.88),rgba(var(--veil),.12) 52%,rgba(var(--veil),.5))}
+.hero-copy{position:absolute;z-index:4;left:var(--gl);right:var(--gr);bottom:clamp(84px,11svh,130px);display:flex;justify-content:space-between;align-items:flex-end;gap:30px;flex-wrap:wrap;transform:translateY(calc(var(--hp) * -90px));opacity:calc(1 - var(--hp) * 1.7)}
+.hero h1{font-size:clamp(2.2rem,6.2vw,6.4rem);max-width:15ch;margin-top:18px}
+.hero-copy,.scrolltip{color:var(--photo-fg)}.hero .eyebrow{color:inherit}
+.hs-info{display:flex;flex-direction:column;gap:12px;align-items:flex-start;min-width:230px}
+.hs-name{font-family:var(--logo);font-weight:200;font-size:clamp(1.8rem,3.6vw,3.6rem);letter-spacing:.3em;text-transform:uppercase;line-height:1;overflow:hidden}
+.hs-name span{display:block}
+.hs-name.sw span{animation:up 1s var(--ease) both}
+@keyframes up{from{transform:translateY(110%)}}
+.hs-sub{font-size:.88rem;max-width:30ch;opacity:.85;min-height:2.8em}
+.hs-bars{display:flex;gap:8px}
+.hs-bars button{width:44px;height:44px;padding:0;border:0;background:none;cursor:pointer;position:relative}
+.hs-bars button::before,.hs-bars button::after{content:"";position:absolute;left:0;right:0;top:21px;height:2px;background:rgba(255,255,255,.3)}
+.hs-bars button::after{background:var(--photo-fg);transform:scaleX(0);transform-origin:left}
+.hs-bars button.on::after{animation:bar 5.6s linear both}
+@keyframes bar{to{transform:scaleX(1)}}
+.scrolltip{position:absolute;z-index:4;left:50%;bottom:22px;transform:translateX(-50%);font-family:var(--logo);font-size:.68rem;letter-spacing:.34em;text-transform:uppercase;opacity:calc(.8 - var(--hp) * 3);display:flex;flex-direction:column;align-items:center;gap:8px}
+.scrolltip::after{content:"";width:1px;height:34px;background:currentColor;animation:tip 1.8s var(--ease) infinite;transform-origin:top}
+@keyframes tip{0%{transform:scaleY(0)}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* ===== intro ===== */
+.intro{padding-block:clamp(60px,10vw,150px);display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:28px}
+.intro .big{grid-column:1/11;font-family:var(--display);font-size:clamp(1.55rem,3.7vw,3.5rem);line-height:1.1;letter-spacing:-.03em}
+.intro .side{grid-column:7/-1;display:flex;flex-direction:column;gap:26px;color:var(--muted);min-width:0}
+.intro .side strong{color:var(--fg);font-weight:500}
+.intro .ref{grid-column:1/6}.intro .ref .fr{aspect-ratio:3/2}
+@media(max-width:800px){.intro .big,.intro .side,.intro .ref{grid-column:1/-1}}
+
+
+/* blocs texte + photo */
+.feat{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:28px;align-items:center;padding-block:clamp(50px,9vw,140px)}
+.feat .ref{grid-column:1/6}.feat .fr{aspect-ratio:1}
+.feat .txt{grid-column:7/-1;display:flex;flex-direction:column;gap:26px;align-items:flex-start;min-width:0}
+.feat.alt .ref{grid-column:8/-1;order:2}
+.feat.alt .txt{grid-column:1/7;order:1}
+.feat h2{font-size:clamp(2.1rem,5vw,4.8rem)}
+.feat p{color:var(--muted);max-width:58ch}
+.feat p strong{color:var(--fg);font-weight:500}
+@media(max-width:800px){.feat .ref,.feat .txt,.feat.alt .ref,.feat.alt .txt{grid-column:1/-1;order:0}}
+
+/* manifeste */
+.manifesto{position:relative;padding-block:clamp(90px,16vw,240px);overflow:hidden}
+.manifesto .bgimg{position:absolute;inset:0;opacity:.55}
+.manifesto .bgimg img{width:100%;height:100%;object-fit:cover;transform:scale(calc(1.05 + var(--p) * .25))}
+.manifesto .wrap{position:relative}
+.manifesto h2{font-size:clamp(2.6rem,9.4vw,10rem);max-width:13ch}
+.manifesto p{margin-top:40px;max-width:54ch;margin-left:auto}
+
+/* ===== panneaux projets empilés ===== */
+.panel{position:relative;background:var(--tint,var(--surface));border-top:1px solid var(--line)}
+.panel-in{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);min-height:100%}
+.panel .txt{display:flex;flex-direction:column;gap:22px;align-items:flex-start;justify-content:flex-end;padding:clamp(28px,5vw,72px) clamp(20px,4vw,60px) clamp(40px,6vw,84px) var(--gl);min-width:0}
+.panel .num{font-family:var(--serif);font-style:italic;font-size:clamp(3rem,7vw,7rem);line-height:.8;color:var(--accent);margin-bottom:auto;padding-top:70px}
+.panel h3{font-size:clamp(1.7rem,3vw,3rem);line-height:1.02}
+.panel p{color:color-mix(in srgb,var(--fg) 72%,transparent);max-width:52ch}
+.panel .pic{position:relative;overflow:hidden;min-height:56vw}
+.panel .pic img{position:absolute;inset:0;width:100%;height:100%}
+.panel .pic img.bk{object-fit:cover;display:none}
+.panel .pic img.fg{object-fit:contain;padding:clamp(18px,3.2vw,56px);transform:scale(calc(1.1 - var(--e,1) * .1))}
+.panel.alt .pic{order:-1}
+@media(min-width:900px){.panel.alt .panel-in{grid-template-columns:minmax(0,8fr) minmax(0,4fr)}}
+.panel.alt .txt{padding-left:clamp(20px,4vw,60px);padding-right:var(--gr)}
+@media(max-width:899px){.panel-in{grid-template-columns:minmax(0,1fr)}.panel .pic{order:-1;aspect-ratio:3/2;min-height:0}.panel .pic img.fg{padding:0}.panel .num{padding-top:0;margin-bottom:0}.panel.alt .txt{padding-left:var(--gl)}}
+@media(min-width:900px) and (min-height:620px){
+  .panel{position:sticky;top:0;height:100svh;overflow:hidden}
+  .panel-in{height:100%;transform:scale(calc(1 - var(--q,0) * .08));filter:brightness(calc(1 - var(--q,0) * .3));border-radius:calc(var(--q,0) * 28px);overflow:hidden;transform-origin:50% 20%;background:inherit}
+  .panel .pic{min-height:0}
+}
+
+.state{padding-block:clamp(70px,11vw,170px)}
+.state h2{font-size:clamp(2.4rem,7.6vw,8rem)}
+
+/* ===== galerie horizontale ===== */
+.hpin{position:relative}
+.hstick{display:flex;flex-direction:column;justify-content:center;gap:clamp(18px,3svh,40px);padding-block:90px 40px}
+.hhead{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;padding-left:var(--gl);padding-right:var(--gr)}
+.hhead h2{font-size:clamp(2.2rem,6vw,5.6rem)}
+.hprog{width:min(240px,40vw);height:2px;background:var(--line);position:relative;margin-bottom:14px}
+.hprog::after{content:"";position:absolute;inset:0;background:var(--accent);transform:scaleX(var(--hg,0));transform-origin:left}
+.htrack{display:flex;gap:clamp(18px,3vw,48px);padding-left:var(--gl);padding-right:var(--gr);width:max-content;will-change:transform}
+.hcard{flex:none;width:clamp(260px,min(36vw,58svh),600px);text-decoration:none;display:flex;flex-direction:column;gap:14px}
+.hcard:nth-child(even){margin-top:clamp(20px,7svh,80px)}
+.hcard .fr{aspect-ratio:3/2;border-radius:3px}
+.hcard .fr img{transition:filter .6s}
+.hcard:hover .fr img{filter:brightness(1.15)}
+.hcard b{font-family:var(--display);font-weight:400;font-size:clamp(1.3rem,2.2vw,2rem);letter-spacing:-.02em;display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.hcard b i{font-family:var(--logo);font-style:normal;font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+.js .hpin .hstick{position:sticky;top:0;height:100svh;overflow:hidden}
+html:not(.js) .hpin{overflow-x:auto}
+
+/* ===== expertises ===== */
+.exp{padding-block:clamp(50px,9vw,130px)}
+.exp-head{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:28px;margin-block:22px clamp(34px,6vw,84px)}
+.exp-head h2{grid-column:1/8;font-size:clamp(2.2rem,5.6vw,5.4rem)}
+.exp-head .txt{grid-column:8/-1;display:flex;flex-direction:column;gap:22px;align-items:flex-start;min-width:0}
+.exp-head p{color:var(--muted)}.exp-head p strong{color:var(--fg);font-weight:500}
+@media(max-width:800px){.exp-head h2,.exp-head .txt{grid-column:1/-1}}
+.xrow{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,8fr) auto;gap:20px;align-items:center;padding-block:clamp(22px,3.4vw,44px);text-decoration:none;transition:padding .7s var(--ease),opacity .4s}
+.xrow .k{font-family:var(--logo);font-size:.76rem;letter-spacing:.3em;text-transform:uppercase;color:var(--muted)}
+.xrow h3{font-size:clamp(1.5rem,4vw,3.8rem);font-weight:400;line-height:1.02;transition:color .4s}
+.xrow svg{width:30px;height:30px;transition:transform .7s var(--ease),color .4s}
+.xlist:hover .xrow{opacity:.35}.xlist .xrow:hover{opacity:1;padding-left:22px}
+.xrow:hover h3,.xrow:hover svg{color:var(--accent)}
+.xrow:hover svg{transform:translateX(8px) rotate(-45deg)}
+@media(max-width:700px){.xrow{grid-template-columns:minmax(0,1fr) auto}.xrow .k{grid-column:1/-1}}
+.xfloat{position:fixed;left:0;top:0;z-index:25;width:360px;aspect-ratio:3/2;margin:-120px 0 0 30px;pointer-events:none;overflow:hidden;clip-path:inset(50% 50% 50% 50%);transition:clip-path .7s var(--ease);border-radius:3px}
+.xfloat.on{clip-path:inset(0)}
+.xfloat img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.25);transition:opacity .5s,transform 1.2s var(--ease)}
+.xfloat img.on{opacity:1;transform:none}
+@media not ((hover:hover) and (pointer:fine)){.xfloat{display:none}}
+
+/* CTA + footer */
+.cta{background:var(--bg);border-top:1px solid var(--line);position:relative;overflow:hidden;padding-block:clamp(90px,15vw,220px);margin-top:clamp(40px,7vw,100px)}
+.cta .bgimg{position:absolute;inset:0}
+.cta .bgimg img{width:100%;height:100%;object-fit:cover;transform:scale(calc(1.35 - var(--p) * .3))}
+.cta .wrap{position:relative}
+.cta h2{font-size:clamp(2.4rem,8.4vw,9rem);max-width:13ch}
+.cta p{margin-block:30px 38px;max-width:52ch}
+footer.site{padding-block:60px 130px;font-size:.92rem;border-top:1px solid var(--line)}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:36px}
+.fgrid h4{margin:0 0 14px;font-family:var(--logo);font-size:.74rem;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);font-weight:400}
+.fgrid ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.fgrid a{text-decoration:none}.fgrid a:hover{color:var(--accent)}
+.fgrid p{color:var(--muted);max-width:44ch}
+.sel{user-select:all}
+
+/* ===== page projet ===== */
+.case-title{font-size:clamp(3.4rem,15vw,16rem)!important;max-width:none!important;line-height:.82!important}
+.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:24px;padding-block:34px;margin:0}
+.meta dt{font-family:var(--logo);font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:var(--muted)}
+.meta dd{margin:8px 0 0;font-family:var(--display);font-size:1.15rem}
+.case-body{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:28px;padding-block:clamp(54px,9vw,140px)}
+.case-body .lead{grid-column:1/8;font-family:var(--display);font-size:clamp(1.5rem,3vw,2.8rem);line-height:1.1;letter-spacing:-.03em}
+.case-body .txt{grid-column:9/-1;display:flex;flex-direction:column;gap:20px;color:var(--muted);min-width:0}
+@media(max-width:800px){.case-body .lead,.case-body .txt{grid-column:1/-1}}
+.gal{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:clamp(16px,2.4vw,36px);padding-bottom:clamp(50px,8vw,120px)}
+.gal .fr:nth-child(1){grid-column:1/-1;aspect-ratio:16/9}
+.gal .fr:nth-child(2){grid-column:1/6;aspect-ratio:1}
+.gal .fr:nth-child(3){grid-column:6/-1;aspect-ratio:3/2;margin-top:clamp(40px,12vw,200px)}
+.gal .fr:nth-child(4){grid-column:3/-1;aspect-ratio:3/2}
+@media(max-width:700px){.gal .fr{grid-column:1/-1!important;margin-top:0!important}}
+.next{display:block;position:relative;overflow:hidden;text-decoration:none;padding-block:clamp(70px,12vw,170px)}
+.next .bgimg{position:absolute;inset:0;opacity:.45;transition:opacity .8s}
+.next .bgimg img{width:100%;height:100%;object-fit:cover;transition:transform 1.6s var(--ease)}
+.next:hover .bgimg{opacity:.8}.next:hover .bgimg img{transform:scale(1.08)}
+.next .wrap{position:relative}
+.next h2{font-size:clamp(2.8rem,11vw,11rem)}
+
+/* ===== URL ===== */
+.urls{padding-block:clamp(120px,12vw,170px) 60px}
+.urls h1{font-size:clamp(2.2rem,5.4vw,4.8rem);margin-block:18px 20px}
+.urls>p{max-width:66ch;color:var(--muted)}
+.tw{overflow-x:auto;margin-top:36px}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:.92rem}
+th{text-align:left;font-family:var(--logo);font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--muted);font-weight:400;padding:10px 12px 10px 0;border-bottom:1px solid var(--fg)}
+td{padding:11px 12px 11px 0;border-bottom:1px solid var(--line);vertical-align:top}
+td:first-child{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.84rem;word-break:break-all}
+.chip{display:inline-block;padding:2px 10px;border-radius:999px;border:1px solid var(--line);font-size:.76rem;white-space:nowrap}
+.chip.q{border-color:var(--accent);color:var(--accent)}
+
+/* sélecteur de maquette */
+.switch{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:35;display:flex;gap:4px;padding:5px;border-radius:999px;background:var(--fg);box-shadow:0 12px 36px -10px rgba(16,26,43,.45);max-width:calc(100% - 24px)}
+.switch button{border:0;background:none;color:var(--bg);font-family:var(--body);font-size:.78rem;letter-spacing:.04em;min-height:40px;padding:0 16px;border-radius:999px;cursor:pointer;white-space:nowrap}
+.switch button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent)}
+
+@media (prefers-reduced-motion:reduce){
+  .curtain{display:none}
+  .js .ln>span,.js .rv{transform:none!important;opacity:1!important;transition:none}
+  .js .wl>img,.js .wr>img,.js .wu>img,.hero-frame{clip-path:none!important}
+  .js .rule{transform:none}
+  .fr img,.js .feat .ref,.js .feat .txt,.js .feat .txt>*,.hero-move,.hs img,.panel-in,.panel .pic img,.bgimg img{transform:none!important;filter:none!important}
+  .scrolltip::after{animation:none}
+  .pin{height:100svh}
+}
+</style>
+
+<div class="curtain" aria-hidden="true"><b>La Framboise</b></div>
+
+<header class="site" id="hdr">
+  <div class="in">
+    <a class="logo" href="#accueil">La Framboise<small>Digitale</small></a>
+    <nav class="main" aria-label="Menu principal">
+      <a href="https://laframboisedigitale.fr/agence-design-digital-luxe/">L’agence</a>
+      <a href="https://laframboisedigitale.fr/portfolio-agence-digitale-luxe/">Projets</a>
+      <a href="https://laframboisedigitale.fr/formation-ux-designer-ia-augmentee/">Formations</a>
+      <a href="https://laframboisedigitale.fr/contact/">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ ACCUEIL ============ -->
+<main id="v-accueil">
+  <div class="pin" data-pin>
+    <section class="hero" id="hero">
+      <div class="hero-frame"><div class="hero-move">
+        <div class="hs on"><img style="object-position:50% 50%;transform-origin:50% 50%" src="img/h-cartier.jpg" alt="Montre Cartier sur fond de soie rouge"></div>
+        <div class="hs"><img style="object-position:79% 50%;transform-origin:79% 50%" src="img/h-dior.jpg" alt="Flacon Dior J’adore"></div>
+        <div class="hs"><img style="object-position:55% 60%;transform-origin:55% 60%" src="img/h-yacht.jpg" alt="Yacht en mer, projet Feadship"></div>
+      </div></div>
+      <div class="hero-copy">
+        <div class="rv in-now">
+          <p class="eyebrow">Agence digitale UX Paris Cannes</p>
+          <h1><span class="ln"><span>Agence digitale luxe à Paris :</span></span><span class="ln" style="--dl:.1s"><span>UX/UI design, branding</span></span><span class="ln" style="--dl:.2s"><span>et sites internet <em class="s">d’exception</em></span></span></h1>
+        </div>
+        <div class="hs-info">
+          <div class="hs-name" id="hsName"><span>Cartier</span></div>
+          <p class="hs-sub" id="hsSub">UX et UI pour Cartier. Création de l’interface design de la gamme montre Cartier</p>
+          <div class="hs-bars" id="hsBars">
+            <button type="button" class="on" aria-label="Visuel Cartier"></button>
+            <button type="button" aria-label="Visuel Dior"></button>
+            <button type="button" aria-label="Visuel Feadship"></button>
+          </div>
+        </div>
+      </div>
+      <div class="scrolltip" aria-hidden="true">Scroll</div>
+    </section>
+  </div>
+
+  <section class="intro wrap">
+    <p class="big" data-fill>Nous sommes une agence digitale spécialisée en design, UX et UI, basée à Paris et Cannes. Nous concevons des sites internet haut de gamme et des expériences digitales sur mesure pour les marques qui refusent de ressembler aux autres.</p>
+    <figure class="ref"><a class="fr wl" data-fit data-cur href="https://laframboisedigitale.fr/mugler-experience-digitale-ux-ui/" aria-label="Voir la référence Mugler"><img src="img/mugler.jpg" alt="Interface Mugler, flacon Angel"></a><figcaption><b>Mugler</b><span>Référence · Parfum</span></figcaption></figure>
+    <div class="side rv">
+      <p>Nous accompagnons les entreprises dans la création de leur <strong>identité visuelle</strong>, la <strong>conception ou la refonte de leur site web</strong> et la construction d’<strong>univers graphiques forts</strong>.</p>
+      <div class="row">
+        <a class="btn fill" href="https://laframboisedigitale.fr/contact/">Discuter de votre projet <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg></a>
+        <a class="btn" href="https://laframboisedigitale.fr/portfolio-agence-digitale-luxe/">Nos projets</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <div class="feat">
+      <figure class="ref"><a class="fr wl" data-fit data-cur href="https://laframboisedigitale.fr/dior-jadore-experience-digitale/" aria-label="Voir la référence Dior J’adore"><img src="img/dior-sq.jpg" alt="Flacon Dior J’adore en gros plan"></a><figcaption><b>Dior J’adore</b><span>Référence · Parfum</span></figcaption></figure>
+      <div class="txt rv-g">
+        <h2><span class="ln"><span>UX de luxe, <em class="s">unique</em></span></span><span class="ln" style="--dl:.1s"><span>pour chaque marque</span></span></h2>
+        <p class="rv" style="--dl:.2s">Notre conviction : une marque ne doit jamais chercher à ressembler à une autre. Chaque projet possède ses propres codes <strong>UX et UI design</strong>, son propre niveau d’exigence et sa propre émotion. Notre rôle est de révéler cette identité et de la traduire avec justesse dans chaque détail, d’un <strong>site internet haut de gamme</strong> à une expérience <strong>e-commerce de luxe</strong>.</p>
+        <a class="lk rv" style="--dl:.3s" href="https://laframboisedigitale.fr/agence-ux-cx-design-luxe/">Nos services UX et UI →</a>
+      </div>
+    </div>
+    <div class="feat alt">
+      <figure class="ref"><a class="fr wr" data-fit data-cur href="https://laframboisedigitale.fr/chanel-experience-digitale/" aria-label="Voir la référence Chanel"><img src="img/chanel-sq.jpg" alt="Flacon Bleu de Chanel"></a><figcaption><b>Chanel</b><span>Référence · Parfum</span></figcaption></figure>
+      <div class="txt rv-g">
+        <h2><span class="ln"><span>De la stratégie de marque</span></span><span class="ln" style="--dl:.1s"><span>à la création de site</span></span><span class="ln" style="--dl:.2s"><span>internet <em class="s">de luxe</em></span></span></h2>
+        <p class="rv" style="--dl:.2s">De la <strong>stratégie de marque</strong> à la <strong>création de site web</strong>, de l’<strong>identité visuelle</strong> au <strong>design d’interface (UI)</strong>, nous construisons des expériences qui ont du sens, de la personnalité et une véritable cohérence.</p>
+        <p class="rv" style="--dl:.25s">La Framboise Digitale, c’est une approche où la marque, l’émotion, le design et la technologie avancent dans une même direction. Vous avez un projet de <strong>site internet sur mesure</strong> ? <strong>Contactez notre agence UX/UI à Paris ou Cannes.</strong></p>
+        <a class="lk rv" style="--dl:.3s" href="https://laframboisedigitale.fr/contact/">Contactez notre agence →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="manifesto" data-par>
+    <div class="wrap">
+      <h2 data-fill>L’émotion commence bien avant le premier clic.</h2>
+      <p class="rv">Chez La Framboise Digitale, nous pensons qu’une expérience forte ne se mesure pas seulement à ce qu’elle permet de faire, mais à ce qu’elle fait ressentir. Notre ambition : transformer le digital en une véritable expérience de marque.</p>
+    </div>
+  </section>
+
+  <section class="stack" aria-label="Projets à la une">
+    <article class="panel" style="--tint:#FFFFFF"><div class="panel-in">
+      <div class="txt rv-g">
+        <span class="num">01</span>
+        <h3><span class="ln"><span>Cartier : interface digitale pour le lancement d’une collection horlogère</span></span></h3>
+        <p class="rv" style="--dl:.15s">Pour accompagner le lancement d’une nouvelle collection de montres, nous avons imaginé une expérience digitale à la hauteur de l’univers de la maison. L’enjeu était de concevoir une interface capable de mettre en scène le produit tout en préservant l’équilibre entre sophistication, désirabilité et simplicité d’usage.</p>
+        <a class="lk rv" style="--dl:.25s" href="#projet" data-cur>Découvrir l’expérience digitale Cartier →</a>
+      </div>
+      <a class="pic" href="#projet" data-cur aria-label="Voir le projet Cartier"><img class="bk" src="img/cartier.jpg" alt="" aria-hidden="true"><img class="fg" src="img/cartier.jpg" alt="Interface Cartier, montre Panthère"></a>
+    </div></article>
+    <article class="panel alt" style="--tint:#FFFFFF"><div class="panel-in">
+      <div class="txt rv-g">
+        <span class="num">02</span>
+        <h3><span class="ln"><span>Dior J’adore : UX design et expérience digitale d’un parfum iconique</span></span></h3>
+        <p class="rv" style="--dl:.15s">Conception d’une expérience digitale dédiée à l’univers de J’adore. De la réflexion UX au design des interfaces, chaque détail sublime la découverte du parfum. Un parcours immersif, élégant et émotionnel, pensé comme une extension de son univers.</p>
+        <a class="lk rv" style="--dl:.25s" href="https://laframboisedigitale.fr/dior-jadore-experience-digitale/">Découvrir l’expérience digitale Dior →</a>
+      </div>
+      <a class="pic" href="https://laframboisedigitale.fr/dior-jadore-experience-digitale/" data-cur aria-label="Voir le projet Dior"><img class="bk" src="img/dior.jpg" alt="" aria-hidden="true"><img class="fg" src="img/dior.jpg" alt="Interface Dior J’adore"></a>
+    </div></article>
+    <article class="panel" style="--tint:#FFFFFF"><div class="panel-in">
+      <div class="txt rv-g">
+        <span class="num">03</span>
+        <h3><span class="ln"><span>Le Monde : refonte de l’espace abonné et UX design éditorial</span></span></h3>
+        <p class="rv" style="--dl:.15s">Refonte de l’espace abonné et conception d’une nouvelle expérience digitale. Des parcours aux interfaces, nous avons repensé les contenus, les formats et les interactions. Un design plus vivant, plus éditorial et pensé pour valoriser chaque contenu.</p>
+        <a class="lk rv" style="--dl:.25s" href="https://laframboisedigitale.fr/le-monde-refonte-espace-abonne-paris/">Découvrir l’expérience digitale Le Monde →</a>
+      </div>
+      <a class="pic" href="https://laframboisedigitale.fr/le-monde-refonte-espace-abonne-paris/" data-cur aria-label="Voir le projet Le Monde"><img class="bk" src="img/lemonde.jpg" alt="" aria-hidden="true"><img class="fg" src="img/lemonde.jpg" alt="Visuel Le Monde"></a>
+    </div></article>
+    <article class="panel alt" style="--tint:#FFFFFF"><div class="panel-in">
+      <div class="txt rv-g">
+        <span class="num">04</span>
+        <h3><span class="ln"><span>Lipton : expérience digitale émotionnelle et ateliers de conception</span></span></h3>
+        <p class="rv" style="--dl:.15s">Création d’une nouvelle proposition digitale autour d’une expérience plus émotionnelle et engageante. Des ateliers de conception aux nouvelles maquettes, nous avons repensé les parcours, les interactions et la mise en scène de la marque. Un design vivant et expressif, où l’émotion devient un véritable moteur de l’expérience.</p>
+        <a class="lk rv" style="--dl:.25s" href="https://laframboisedigitale.fr/lipton-experience-digitale/">Découvrir l’expérience digitale Lipton →</a>
+      </div>
+      <a class="pic" href="https://laframboisedigitale.fr/lipton-experience-digitale/" data-cur aria-label="Voir le projet Lipton"><img class="bk" src="img/lipton.jpg" alt="" aria-hidden="true"><img class="fg" src="img/lipton.jpg" alt="Interface Lipton"></a>
+    </div></article>
+  </section>
+
+  <section class="state wrap rv-g">
+    <h2><span class="ln"><span>Penser la marque.</span></span><span class="ln" style="--dl:.12s"><span><em class="s">Ressentir l’expérience.</em></span></span><span class="ln" style="--dl:.24s"><span>Créer la différence.</span></span></h2>
+  </section>
+
+  <section class="hpin" data-hpin aria-label="Tous les projets">
+    <div class="hstick">
+      <div class="hhead">
+        <h2>Nos <em class="s">projets</em></h2>
+        <div class="hprog" aria-hidden="true"></div>
+      </div>
+      <div class="htrack" id="htrack"></div>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <div class="feat alt" style="padding-bottom:0">
+      <figure class="ref"><a class="fr wr" data-fit data-cur href="https://laframboisedigitale.fr/celine-experience-digitale-ux-ui/" aria-label="Voir la référence Celine"><img src="img/celine.jpg" alt="Interface Celine, sac en toile Triomphe"></a><figcaption><b>Celine</b><span>Référence · Mode</span></figcaption></figure>
+      <div class="txt rv-g">
+        <h2><span class="ln"><span>Agence de design digital à Paris :</span></span><span class="ln" style="--dl:.1s"><span>penser la marque,</span></span><span class="ln" style="--dl:.2s"><span><em class="s">créer la différence.</em></span></span></h2>
+        <a class="btn rv" style="--dl:.3s" href="https://laframboisedigitale.fr/agence-design-digital-luxe/">En savoir plus sur l’agence <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="exp wrap">
+    <p class="eyebrow rv">Nos expertises : branding, UX, direction artistique et technologie</p>
+    <div class="exp-head rv-g">
+      <h2><span class="ln"><span>Le digital ne transforme rien.</span></span><span class="ln" style="--dl:.12s"><span><em class="s">Ce que vous en faites, oui.</em></span></span></h2>
+      <div class="txt rv" style="--dl:.2s">
+        <p>Nous accompagnons les marques de la stratégie à la mise en ligne : comprendre, imaginer, concevoir et faire évoluer. <strong>Stratégie, design</strong> et <strong>technologie AI</strong> au service d’idées capables de créer une véritable différence.</p>
+        <a class="lk" href="https://laframboisedigitale.fr/agence-design-digital-luxe/">Imaginer la suite →</a>
+      </div>
+    </div>
+    <div class="xlist" id="xlist">
+      <span class="rule"></span>
+      <a class="xrow rv" data-x="0" href="https://laframboisedigitale.fr/agence-branding-luxe/"><span class="k">Branding</span><h3>Branding de luxe et identité de marque</h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg></a>
+      <span class="rule"></span>
+      <a class="xrow rv" data-x="1" href="https://laframboisedigitale.fr/agence-ux-cx-design-luxe/"><span class="k">UX UI &amp; CX</span><h3>UX UI &amp; CX design de luxe : parcours clients haut de gamme</h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg></a>
+      <span class="rule"></span>
+      <a class="xrow rv" data-x="2" href="https://laframboisedigitale.fr/direction-artistique-digitale-luxe/"><span class="k">Design et émotion</span><h3>Direction artistique digitale et design d’émotion</h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg></a>
+      <span class="rule"></span>
+      <a class="xrow rv" data-x="3" href="https://laframboisedigitale.fr/developpement-web-mobile-ia-luxe-paris/"><span class="k">Technologie et IA</span><h3>Développement web, e-commerce et IA sur mesure</h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg></a>
+      <span class="rule"></span>
+    </div>
+  </section>
+</main>
+
+<!-- ============ PAGE PROJET ============ -->
+<main id="v-projet" hidden>
+  <div class="pin" data-pin>
+    <section class="hero">
+      <div class="hero-frame"><div class="hero-move"><div class="hs on"><img style="object-position:50% 50%;transform-origin:50% 50%" src="img/h-cartier.jpg" alt="Montre Cartier sur fond de soie rouge"></div></div></div>
+      <div class="hero-copy">
+        <div class="rv">
+          <p class="eyebrow">L’interface d’une collection horlogère · Sep 2021</p>
+          <h1 class="case-title"><span class="ln"><span style="font-size:.26em;letter-spacing:-.02em;line-height:1.2">Expérience digitale</span></span><span class="ln" style="--dl:.12s"><span>Cartier</span></span></h1>
+        </div>
+      </div>
+      <div class="scrolltip" aria-hidden="true">Scroll</div>
+    </section>
+  </div>
+  <section class="wrap">
+    <dl class="meta rv">
+      <div><dt>Client</dt><dd>Cartier</dd></div>
+      <div><dt>Date</dt><dd>Sep 2021</dd></div>
+      <div><dt>Expertises</dt><dd>UX Design · UI Design · Direction artistique · Conception d’interfaces · Expérience digitale</dd></div>
+    </dl>
+    <span class="rule"></span>
+    <div class="case-body">
+      <p class="lead" data-fill>Notre travail a débuté par une réflexion autour de l’expérience utilisateur et des parcours de navigation. Chaque interaction, chaque transition et chaque niveau d’information a été pensé pour accompagner la découverte de la collection de manière fluide et naturelle.</p>
+      <div class="txt rv">
+        <p>Nous avons ensuite développé la direction artistique et le design des interfaces, avec une attention particulière portée à la composition, au rythme, aux détails et à la mise en valeur des montres. L’objectif n’était pas simplement de présenter un produit, mais de créer un véritable écrin digital.</p>
+        <p>De la conception UX au design d’interface, ce projet illustre notre approche : comprendre les codes d’un univers de marque pour concevoir une expérience digitale cohérente, singulière et émotionnelle.</p>
+      </div>
+    </div>
+    <div class="gal">
+      <div class="fr wu" data-fit><img src="img/cartier.jpg" alt="Page d’accueil de l’interface Cartier"></div>
+      <div class="fr wl" data-fit><img src="img/cartier-sq.jpg" alt="Montre Cartier en gros plan"></div>
+      <div class="fr wr" data-fit><img src="img/cartier-2.jpg" alt="Écran produit de l’interface Cartier"></div>
+      <div class="fr wu" data-fit><img src="img/cartier-3.jpg" alt="Écran détail de l’interface Cartier"></div>
+    </div>
+  </section>
+  <a class="next" href="https://laframboisedigitale.fr/dior-jadore-experience-digitale/" data-cur>
+    <div class="bgimg"><img style="object-position:79% 50%;transform-origin:79% 50%" src="img/h-dior.jpg" alt=""></div>
+    <div class="wrap">
+      <p class="eyebrow" style="margin-bottom:16px;color:var(--fg)">Projet suivant</p>
+      <h2>Dior <em class="s">J’adore</em> →</h2>
+    </div>
+  </a>
+</main>
+
+<!-- ============ URL ============ -->
+<main id="v-urls" hidden>
+  <section class="urls wrap">
+    <p class="eyebrow">Sitemap actuel · 37 pages</p>
+    <h1>Toutes les URL sont conservées</h1>
+    <p>Le thème ne modifie ni les slugs ni le type de contenu : chaque page reste une page WordPress à la même adresse. Seul le gabarit d’affichage change. Les pages marquées « à confirmer » semblent être d’anciennes pages de test ; dites-moi si elles doivent garder un gabarit dédié.</p>
+    <div class="tw"><table>
+      <thead><tr><th>URL (inchangée)</th><th>Gabarit du thème</th></tr></thead>
+      <tbody id="urlrows"></tbody>
+    </table></div>
+  </section>
+</main>
+
+<section class="cta">
+  <div class="wrap rv-g">
+    <p class="eyebrow rv" style="color:var(--fg);margin-bottom:24px">Paris, Nice, Cannes</p>
+    <h2><span class="ln"><span>Vous avez un projet</span></span><span class="ln" style="--dl:.1s"><span>qui mérite de</span></span><span class="ln" style="--dl:.2s"><span><em class="s">se distinguer</em> ?</span></span></h2>
+    <p class="rv" style="--dl:.3s">Échangeons autour de vos enjeux et construisons une expérience digitale à la hauteur de votre ambition.</p>
+    <a class="btn fill rv" style="--dl:.4s" href="https://laframboisedigitale.fr/contact/">Discuter de votre projet <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg></a>
+  </div>
+</section>
+
+<footer class="site">
+  <div class="wrap fgrid">
+    <div>
+      <h4>La Framboise Digitale</h4>
+      <p>La Framboise Digitale est une agence digitale spécialisée en UX/UI design, création de sites internet sur mesure, e-commerce et stratégie digitale. Nous concevons des expériences digitales premium qui allient design, émotion et performance pour les marques ambitieuses, du luxe aux entreprises innovantes, à Paris et sur la Côte d’Azur.</p>
+    </div>
+    <div><h4>Menu</h4><ul>
+      <li><a href="https://laframboisedigitale.fr/">Homepage</a></li>
+      <li><a href="https://laframboisedigitale.fr/agence-design-digital-luxe/">L’agence</a></li>
+      <li><a href="https://laframboisedigitale.fr/portfolio-agence-digitale-luxe/">Projets</a></li>
+      <li><a href="https://laframboisedigitale.fr/contact/">Contact</a></li>
+    </ul></div>
+    <div><h4>Services</h4><ul>
+      <li><a href="https://laframboisedigitale.fr/agence-branding-luxe/">Branding</a></li>
+      <li><a href="https://laframboisedigitale.fr/agence-ux-cx-design-luxe/">CX / PX / UX</a></li>
+      <li><a href="https://laframboisedigitale.fr/direction-artistique-digitale-luxe/">Design &amp; émotion</a></li>
+      <li><a href="https://laframboisedigitale.fr/developpement-web-mobile-ia-luxe-paris/">Technologie IA</a></li>
+      <li><a href="https://laframboisedigitale.fr/design-emotionnel-luxe/">Design émotionnel</a></li>
+    </ul></div>
+    <div><h4>Contact</h4><ul>
+      <li class="sel">com75@laframboisedigitale.fr</li>
+      <li>103 rue de Grenelle, Paris</li>
+      <li><a href="https://www.instagram.com/laframboisedigitale">Instagram</a></li>
+      <li><a href="https://laframboisedigitale.fr/conditions-generales-dutilisation/">CGU</a></li>
+      <li><a href="https://laframboisedigitale.fr/politique-de-confidentialite/">Politique de confidentialité</a></li>
+      <li><a href="https://laframboisedigitale.fr/politique-de-cookies/">Politique de cookies</a></li>
+    </ul></div>
+  </div>
+</footer>
+
+<div class="xfloat" id="xfloat" aria-hidden="true">
+  <img src="img/x-brand.jpg" alt=""><img src="img/x-ux.jpg" alt=""><img src="img/h-chanel.jpg" alt=""><img src="img/x-tech.jpg" alt="">
+</div>
+
+<div class="switch" role="group" aria-label="Pages de la pré-maquette">
+  <button type="button" data-v="accueil" aria-pressed="true">Accueil</button>
+  <button type="button" data-v="projet" aria-pressed="false">Page projet</button>
+  <button type="button" data-v="urls" aria-pressed="false">URL conservées</button>
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement; root.classList.add('js');
+  var B='https://laframboisedigitale.fr/';
+  function $$(s,c){return Array.prototype.slice.call((c||document).querySelectorAll(s));}
+  function cl(x){return x<0?0:x>1?1:x;}
+
+  /* --- galerie : les 16 pages projet --- */
+  var P=[['Cartier','Horlogerie','cartier','cartier-experience-digitale/'],['Dior J’adore','Parfum','dior','dior-jadore-experience-digitale/'],['Le Monde','Presse','lemonde','le-monde-refonte-espace-abonne-paris/'],['Lipton','Grande consommation','lipton','lipton-experience-digitale/'],['Chanel','Parfum','h-chanel','chanel-experience-digitale/'],['Celine','Mode','celine','celine-experience-digitale-ux-ui/'],['Mugler','Parfum','mugler','mugler-experience-digitale-ux-ui/'],['Festival de Cannes','Cinéma','cannes','festival-de-cannes-experience-digitale/'],['Feadship','Yachting','h-yacht','feadship-experience-digitale-ux-ui/'],['Renault Captur','Automobile','captur','renault-captur-experience-digitale-ux/'],['Renault 5','Automobile','r5','renault-5-experience-digitale-ux-design/'],['Le Parisien','Presse','parisien','le-parisien-experience-digitale-ux-ui/'],['Sofinco','Finance','sofinco','sofinco-experience-digitale-ux-ui/'],['Dans la brume électrique','Cinéma','brume','dans-la-brume-electrique-experience-digitale/'],['Les Rivières pourpres','Cinéma','rivieres','les-rivieres-pourpres-experience-digitale-ux-ui/'],['Adidas','Sport','adidas','adidas-experience-digitale-ux-design/']];
+  var track=document.getElementById('htrack');
+  P.forEach(function(p){
+    var a=document.createElement('a'); a.className='hcard'; a.href=B+p[3]; a.setAttribute('data-cur','');
+    var f=document.createElement('div'); f.className='fr'; f.setAttribute('data-fit',''); var im=document.createElement('img'); im.src='img/'+p[2]+'.jpg'; im.alt='Projet '+p[0]; f.appendChild(im);
+    var b=document.createElement('b'); b.textContent=p[0]; var i=document.createElement('i'); i.textContent=p[1]; b.appendChild(i);
+    a.appendChild(f); a.appendChild(b); track.appendChild(a);
+  });
+
+  /* --- tableau des URL --- */
+  var U=[['','Accueil'],['agence-design-digital-luxe/','L’agence'],['portfolio-agence-digitale-luxe/','Portfolio'],['contact/','Contact'],
+  ['agence-branding-luxe/','Expertise'],['agence-ux-cx-design-luxe/','Expertise'],['direction-artistique-digitale-luxe/','Expertise'],['developpement-web-mobile-ia-luxe-paris/','Expertise'],['design-emotionnel-luxe/','Expertise'],['agence-conseil-en-communication-luxe/','Expertise']]
+  .concat(P.map(function(p){return [p[3],'Projet'];}))
+  .concat([['formation-ux-designer-ia-augmentee/','Formation'],['formation-2-jours-ux-design-ia-augmentee-de-la-strategie-au-prototype/','Formation'],['formation-1-jour-ux-design-et-ia-les-fondamentaux-operationnels/','Formation'],
+  ['politique-de-confidentialite/','Page légale'],['conditions-generales-dutilisation/','Page légale'],['politique-de-cookies/','Page légale'],
+  ['sample-page/','?'],['specs/','?'],['info/','?'],['page-projets/','?'],['expertises/','?']]);
+  var tb=document.getElementById('urlrows');
+  U.forEach(function(u){
+    var tr=document.createElement('tr'),a=document.createElement('td'),b=document.createElement('td'),c=document.createElement('span');
+    a.textContent=B+u[0]; c.className='chip'+(u[1]==='?'?' q':''); c.textContent=u[1]==='?'?'Page standard · à confirmer':u[1];
+    b.appendChild(c); tr.appendChild(a); tr.appendChild(b); tb.appendChild(tr);
+  });
+
+  /* --- cadres au format de l'image --- */
+  function fit(im){var f=im.closest('.fr[data-fit]'); if(f&&im.naturalWidth){f.style.aspectRatio=im.naturalWidth+' / '+im.naturalHeight; if(window.__lfd)window.__lfd();}}
+  $$('.fr[data-fit] img').forEach(function(im){if(im.complete)fit(im); else im.addEventListener('load',function(){fit(im);});});
+
+  /* --- mots pour le remplissage au scroll --- */
+  $$('[data-fill]').forEach(function(el){
+    var ws=el.textContent.trim().split(/\s+/); el.textContent='';
+    ws.forEach(function(w,i){var s=document.createElement('span');s.className='w';s.textContent=w;el.appendChild(s);if(i<ws.length-1)el.appendChild(document.createTextNode(' '));});
+  });
+
+  /* --- apparitions --- */
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.12,rootMargin:'0px 0px -6% 0px'});
+  $$('.rv,.rv-g,.wl,.wr,.wu,.rule').forEach(function(el){io.observe(el);});
+
+  /* --- diaporama d'ouverture --- */
+  var hero=document.getElementById('hero'),slides=$$('.hs',hero),bars=$$('#hsBars button'),nm=document.getElementById('hsName'),sub=document.getElementById('hsSub');
+  var S=[['Cartier','UX et UI pour Cartier. Création de l’interface design de la gamme montre Cartier'],['Dior','Dior J’adore : UX design et expérience digitale d’un parfum iconique'],['Feadship','Feadship : expérience digitale UX UI']];
+  var cur=0,timer=0;
+  function go(n){
+    if(n===cur)return;
+    slides.forEach(function(s){s.classList.remove('prev');});
+    slides[cur].classList.remove('on'); slides[cur].classList.add('prev');
+    bars[cur].classList.remove('on');
+    cur=n; slides[cur].classList.add('on'); void bars[cur].offsetWidth; bars[cur].classList.add('on');
+    nm.firstChild.textContent=S[cur][0]; nm.classList.remove('sw'); void nm.offsetWidth; nm.classList.add('sw');
+    sub.textContent=S[cur][1];
+  }
+  function auto(){clearInterval(timer);timer=setInterval(function(){
+    if(document.hidden||document.getElementById('v-accueil').hidden||window.scrollY>window.innerHeight*1.4)return;
+    go((cur+1)%slides.length);},5600);}
+  bars.forEach(function(b,i){b.addEventListener('click',function(){go(i);auto();});});
+  if(!matchMedia('(prefers-reduced-motion:reduce)').matches)auto();
+
+  /* --- souris : parallaxe, curseur, vignette expertises --- */
+  var xf=document.getElementById('xfloat'),xi=$$('img',xf);
+  var mx=0,my=0,cx=0,cy=0,fx=0,fy=0,moving=0;
+  window.addEventListener('pointermove',function(e){
+    if(e.pointerType==='touch')return;
+    mx=e.clientX;my=e.clientY;
+    root.style.setProperty('--mx',(mx/innerWidth-.5).toFixed(3));root.style.setProperty('--my',(my/innerHeight-.5).toFixed(3));
+    if(!moving){moving=1;requestAnimationFrame(follow);}
+  },{passive:true});
+  function follow(){
+    fx+=(mx-fx)*.1;fy+=(my-fy)*.1;
+    xf.style.transform='translate3d('+fx.toFixed(1)+'px,'+fy.toFixed(1)+'px,0)';
+    if(Math.abs(mx-fx)+Math.abs(my-fy)>.4)requestAnimationFrame(follow);else moving=0;
+  }
+  $$('.xrow').forEach(function(r){
+    r.addEventListener('pointerenter',function(){xi.forEach(function(im,i){im.classList.toggle('on',i==r.dataset.x);});xf.classList.add('on');});
+    r.addEventListener('pointerleave',function(){xf.classList.remove('on');});
+  });
+
+  /* --- moteur de scroll --- */
+  var hdr=document.getElementById('hdr'),pins=$$('[data-pin]'),panels=$$('.panel'),hpin=document.querySelector('[data-hpin]'),feats=$$('.feat'),cards=$$('.hcard'),lastY=0,raf=0;
+  function size(){
+    var w=track.scrollWidth; if(w)hpin.style.height=Math.max(innerHeight,w-innerWidth+innerHeight)+'px';
+  }
+  function tick(){
+    raf=0; var vh=innerHeight,vw=innerWidth,y=window.scrollY;
+    hdr.classList.toggle('scrolled',y>40||!document.getElementById('v-urls').hidden);
+    hdr.classList.toggle('hide',y>lastY&&y>vh*.9); lastY=y;
+    pins.forEach(function(el){var r=el.getBoundingClientRect(); if(!r.height)return;
+      el.style.setProperty('--hp',cl(-r.top/Math.max(1,r.height-vh)).toFixed(3));});
+    panels.forEach(function(el,i){var r=el.getBoundingClientRect(); if(!r.height||r.top>vh*1.2||r.bottom<-vh)return;
+      var nx=panels[i+1],q=nx?cl(1-nx.getBoundingClientRect().top/vh):0;
+      el.style.setProperty('--q',q.toFixed(3)); el.style.setProperty('--e',cl((vh-r.top)/vh).toFixed(3));});
+    var hr=hpin.getBoundingClientRect();
+    if(hr.height&&hr.top<vh&&hr.bottom>0){
+      var hp=cl(-hr.top/Math.max(1,hr.height-vh)),dx=hp*Math.max(0,track.scrollWidth-vw);
+      track.style.transform='translate3d('+(-dx).toFixed(1)+'px,0,0)'; hpin.style.setProperty('--hg',hp.toFixed(3));
+    }
+    feats.forEach(function(el){var r=el.getBoundingClientRect(); if(!r.height||r.bottom<-300||r.top>vh+300)return;
+      var b=cl((vh*.96-r.top)/(vh*.62)); el.style.setProperty('--b',(b*b*(3-2*b)).toFixed(3));});
+    $$('[data-par],[data-hx]').forEach(function(el){var r=el.getBoundingClientRect(); if(!r.height||r.bottom<-200||r.top>vh+200)return;
+      el.style.setProperty('--p',cl((vh-r.top)/(vh+r.height)).toFixed(3));});
+    $$('[data-fill]').forEach(function(el){var r=el.getBoundingClientRect(); if(!r.height||r.bottom<-200||r.top>vh+200)return;
+      var p=cl((vh*.9-r.top)/(r.height+vh*.4)),w=el.children,n=w.length;
+      for(var i=0;i<n;i++)w[i].style.opacity=(.16+.84*cl(p*n*1.15-i)).toFixed(2);});
+  }
+  function req(){if(!raf)raf=requestAnimationFrame(tick);}
+  window.__lfd=function(){size();req();};
+  window.addEventListener('scroll',req,{passive:true});
+  window.addEventListener('resize',function(){size();req();});
+
+  /* --- vues de la maquette --- */
+  var views=['accueil','projet','urls'];
+  function show(v,jump){
+    if(views.indexOf(v)<0)v='accueil';
+    views.forEach(function(n){document.getElementById('v-'+n).hidden=n!==v;});
+    $$('.switch button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.v===v?'true':'false');});
+    if(jump)window.scrollTo(0,0); size(); req();
+  }
+  $$('.switch button').forEach(function(b){b.addEventListener('click',function(){
+    if(location.hash.slice(1)===b.dataset.v)show(b.dataset.v,true); else location.hash=b.dataset.v;});});
+  window.addEventListener('hashchange',function(){show(location.hash.slice(1),true);});
+  show(location.hash.slice(1),false);
+  window.addEventListener('load',function(){size();req();});
+})();
+</script>
